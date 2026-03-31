@@ -1,19 +1,11 @@
-# ============================================
-# KPI E-COMMERCE DASHBOARD
-# Author: [Ton Prénom]
-# Stack: Python, Pandas, Plotly, MySQL
-# ============================================
 
+# KPI E-COMMERCE DASHBOARD
+# Author: Zakaria
+# Stack: Python, Pandas, Plotly, MySQL
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
-
-# ============================================
-# DATA — Simulation des résultats SQL
-# (à remplacer par une connexion MySQL réelle)
-# ============================================
-
 # KPI 2 — CA Mensuel
 df_ca = pd.DataFrame({
     'mois': ['2024-01','2024-02','2024-03','2024-04','2024-05',
@@ -60,9 +52,9 @@ df_cat = pd.DataFrame({
     'CA': [21989.65, 3299.89, 2979.67, 2939.79, 1109.82, 549.87]
 })
 
-# ============================================
+
 # DASHBOARD — Layout Plotly
-# ============================================
+
 
 colors = {
     'bg': '#0f1117',
@@ -95,7 +87,7 @@ fig = make_subplots(
     horizontal_spacing=0.08
 )
 
-# --- Row 1, Col 1 : CA Mensuel (Bar)
+#  Row 1, Col 1 : CA Mensuel (Bar)
 fig.add_trace(go.Bar(
     x=df_ca['mois'],
     y=df_ca['CA_mensuel'],
@@ -105,7 +97,7 @@ fig.add_trace(go.Bar(
     hovertemplate='%{x}<br>CA: %{y:,.0f} €<extra></extra>'
 ), row=1, col=1)
 
-# --- Row 1, Col 2 : Panier Moyen (Line)
+#  Row 1, Col 2 : Panier Moyen (Line)
 fig.add_trace(go.Scatter(
     x=df_ca['mois'],
     y=df_ca['panier_moyen'],
@@ -116,7 +108,7 @@ fig.add_trace(go.Scatter(
     hovertemplate='%{x}<br>Panier: %{y:.2f} €<extra></extra>'
 ), row=1, col=2)
 
-# --- Row 1, Col 3 : Taux Conversion (Line)
+# Row 1, Col 3 : Taux Conversion (Line)
 fig.add_trace(go.Scatter(
     x=df_conv['mois'],
     y=df_conv['taux_conversion'],
@@ -129,7 +121,7 @@ fig.add_trace(go.Scatter(
     hovertemplate='%{x}<br>Conversion: %{y:.2f}%<extra></extra>'
 ), row=1, col=3)
 
-# --- Row 2, Col 1 : Top Produits (Horizontal Bar)
+#  Row 2, Col 1 : Top Produits (Horizontal Bar)
 fig.add_trace(go.Bar(
     y=df_top['produit'],
     x=df_top['CA'],
@@ -139,7 +131,7 @@ fig.add_trace(go.Bar(
     hovertemplate='%{y}<br>CA: %{x:,.0f} €<extra></extra>'
 ), row=2, col=1)
 
-# --- Row 2, Col 2 : CA par Catégorie (Donut)
+#  Row 2, Col 2 : CA par Catégorie (Donut)
 fig.add_trace(go.Pie(
     labels=df_cat['categorie'],
     values=df_cat['CA'],
@@ -150,7 +142,7 @@ fig.add_trace(go.Pie(
     hovertemplate='%{label}<br>CA: %{value:,.0f} €<br>%{percent}<extra></extra>'
 ), row=2, col=2)
 
-# --- Row 2, Col 3 : Statuts (Donut)
+#  Row 2, Col 3 : Statuts (Donut)
 fig.add_trace(go.Pie(
     labels=df_status['status'],
     values=df_status['nb'],
@@ -160,14 +152,14 @@ fig.add_trace(go.Pie(
     hovertemplate='%{label}<br>%{value} commandes (%{percent})<extra></extra>'
 ), row=2, col=3)
 
-# --- Row 3 : KPI Summary Cards (Annotations instead)
+# Row 3 : KPI Summary Cards (Annotations instead)
 kpis = [
-    ('💰 CA Total 2024', '92 957 €'),
-    ('🛒 Panier Moyen', '533 €'),
-    ('📦 Commandes Payées', '155'),
-    ('🎯 Taux Conversion Moy.', '0.92%'),
-    ('❌ Taux Annulation', '6.5%'),
-    ('👥 Clients Actifs', '50')
+    ('CA Total 2024', '92 957 €'),
+    ('Panier Moyen', '533 €'),
+    ('Commandes Payées', '155'),
+    ('Taux Conversion Moy.', '0.92%'),
+    ('Taux Annulation', '6.5%'),
+    ('Clients Actifs', '50')
 ]
 
 # Scatter invisible pour row 3
@@ -177,9 +169,9 @@ fig.add_trace(go.Scatter(
     showlegend=False
 ), row=3, col=1)
 
-# ============================================
+
 # LAYOUT
-# ============================================
+
 
 fig.update_layout(
     title=dict(
@@ -217,9 +209,9 @@ fig.update_yaxes(tickfont=dict(size=9), row=2, col=1)
 for annotation in fig['layout']['annotations']:
     annotation['font'] = dict(size=13, color=colors['accent1'])
 
-# ============================================
+
 # KPI CARDS via Annotations
-# ============================================
+
 card_x = [0.08, 0.25, 0.42, 0.59, 0.76, 0.93]
 for idx, (label, value) in enumerate(kpis):
     fig.add_annotation(
